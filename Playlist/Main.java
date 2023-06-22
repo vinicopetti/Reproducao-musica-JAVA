@@ -110,31 +110,37 @@ class Main {
             String descricaoPlaylist = in.nextLine();
             Playlist playlist = new Playlist(descricaoPlaylist);
             playlist.verMusicasCadastradas(musicasCadastradas);
-            System.out.print("\nDigite o indice das musicas a serem adicionadas (separados por virgula): ");
-            String indices = in.nextLine();
-            // divide a string indices em um array de strings usando a virgula como
-            // separador.
-            String[] indicesStr = indices.split(",");
-
+            
             // para cada indice presente no array de indices
-            for (String indiceStr : indicesStr) {
-                try {
-                    // transorma pra inteiro aquele indice
-                    int indice = Integer.parseInt(indiceStr.trim());
-                    // verifica se é um indice de uma musica
-                    if (indice >= 1 && indice <= musicasCadastradas.size()) {
-                        // pega a referencia para aquela musica em especifico e adiciona na playlist
-                        Musica musica = musicasCadastradas.get(indice - 1);
-                        playlist.adicionarMusicaNaPlaylist(musica);
-
-                    } else {
-                        System.out.println("Indice inválido!");
+            boolean indiceValido = false;
+            while(!indiceValido) {
+                System.out.print("\nDigite o indice das musicas a serem adicionadas (separados por virgula): ");
+                String indices = in.nextLine();
+                // divide a string indices em um array de strings usando a virgula como separador.
+                String[] indicesStr = indices.split(",");
+                for (String indiceStr : indicesStr) {
+                    try {
+                        // transorma pra inteiro aquele indice
+                        int indice = Integer.parseInt(indiceStr.trim());
+                        // verifica se é um indice de uma musica
+                        if (indice >= 1 && indice <= musicasCadastradas.size()) {
+                            // pega a referencia para aquela musica em especifico e adiciona na playlist
+                            Musica musica = musicasCadastradas.get(indice - 1);
+                            playlist.adicionarMusicaNaPlaylist(musica);
+                            indiceValido = true;
+    
+                        } else {
+                            System.out.println("\nIndice inválido!");
+                            indiceValido = false;
+                        }
+    
+                    } catch (NumberFormatException e) {
+                        System.out.println("Índice inválido: " + indiceStr);
+                        indiceValido = false;
                     }
-
-                } catch (NumberFormatException e) {
-                    System.out.println("Índice inválido: " + indiceStr);
                 }
             }
+
             // lista a playlist e adiciona a playlist criada em um array contendo as
             // playlists
             playlist.listarPlaylist();
@@ -217,8 +223,7 @@ class Main {
             int cont = 1;
             for (Playlist playlist : playlistsCriadas) {
                 int tempo = playlist.caclularDuracaoTotal();
-                System.out.println(cont + ". PLAYLIST: " + playlist.getDescricaoPlaylist() + " Duracao: "
-                        + playlist.converterSegundos(tempo));
+                System.out.println(cont + ". PLAYLIST: " + playlist.getDescricaoPlaylist() + " Duracao: " + playlist.converterSegundos(tempo));
                 cont++;
             }
             System.out.print("Digite o numero da playlist: ");
@@ -289,7 +294,7 @@ class Main {
             int cont = 1;
 
             for (Playlist playlist : playlistsCriadas) {
-                System.out.println("\nPlaylist " + cont);
+                System.out.println("\nPlaylist " + cont + " - " + playlist.getDescricaoPlaylist());
                 playlist.listarPlaylist2();
                 cont++;
             }

@@ -6,9 +6,7 @@ import java.util.Collections;
 public class Playlist {
 
     String descricaoPlaylist;
-    // array que vai armazenar as musicas quando o usuario criar uma playlist
     private List<Musica> playlist; 
-    //private List<Musica> musicas;
 
     // construtor
     public Playlist(String descricaoPlaylist) {
